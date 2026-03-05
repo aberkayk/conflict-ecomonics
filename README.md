@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 Conflict Economic Tracker
 
-## Getting Started
+**Conflict Economic Tracker** is an advanced Next.js application designed to track, analyze, and visualize global armed conflicts, political violence, and their real-time impacts on local and global economies.
 
-First, run the development server:
+The project goes beyond just reporting human casualties; it aims to contextualize these events within economic indicators such as GDP growth, inflation, currency fluctuations, and critical commodity prices (Oil, Natural Gas, Wheat, etc.).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![Dashboard Preview](public/dashboard-preview.png) _(Placeholder image, you can add your own screenshot here)_
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Key Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Live Conflict Tracking:** Integrated with the UCDP (Uppsala Conflict Data Program) GED API for real-time, coordinate-based conflict event monitoring.
+- **Economic Indicators:** Compares conflict data with World Bank Open Data (GDP growth, CPI Inflation, Trade % of GDP).
+- **Market Impact Analysis:** Real-time tracking of currency exchange rates (Frankfurter API) and critical commodities (Yahoo Finance).
+- **AI-Powered Insights:** Uses specialized prompts for Claude (Anthropic) or Gemini (Google) models to generate automated correlation reports between conflict intensity and market volatility.
+- **Interactive Geospatial View:** Dynamic maps built with React-Simple-Maps to visualize conflict density and affected regions.
+- **Analytics Dashboard:** Trend visualizations and economic projection charts powered by Recharts.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Tech Stack
 
-## Learn More
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + Shadcn/UI + Framer Motion
+- **Data Visualization:** Recharts + React-Simple-Maps
+- **Data Sources:**
+  - **Conflict:** [UCDP GED API](https://ucdp.uu.se/apidocs/)
+  - **Economy:** World Bank Open Data
+  - **Market:** Frankfurter API & Yahoo Finance
+- **Artificial Intelligence:** Anthropic Claude SDK & Google Gemini SDK
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Installation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Follow these steps to run the project locally:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clone the Repository:**
 
-## Deploy on Vercel
+   ```bash
+   git clone https://github.com/yourusername/conflict-economic-tracker.git
+   cd conflict-economic-tracker
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Install Dependencies:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables:**
+   Create a `.env.local` file in the root directory and add your API keys:
+
+   ```env
+   # Conflict Data (UCDP)
+   UCDP_TOKEN=your_ucdp_token_here (Free, request via email)
+
+   # Intelligence & News
+   NEWSAPI_KEY=your_newsapi_key
+   ANTHROPIC_API_KEY=your_claude_key
+   GEMINI_API_KEY=your_gemini_key
+   ```
+
+4. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 📊 About Data Sources
+
+This application utilizes **Uppsala Conflict Data Program (UCDP)** data, which is widely recognized as the gold standard in academic and humanitarian sectors. Access is free, but may require a token for API stability. Please refer to UCDP documentation for token requests.
+
+## 📄 License
+
+This project is licensed under the MIT License. Respective data sources carry their own usage terms and licenses.
+
+---
+
+_Developed by: [Ahmet Kocak](https://github.com/ahmetkocak)_
