@@ -4,7 +4,7 @@
 
 The project goes beyond just reporting human casualties; it aims to contextualize these events within economic indicators such as GDP growth, inflation, currency fluctuations, and critical commodity prices (Oil, Natural Gas, Wheat, etc.).
 
-![Dashboard Preview](public/dashboard-preview.png) _(Placeholder image, you can add your own screenshot here)_
+![Dashboard Preview](public/dashboard-preview.png)
 
 ## ✨ Key Features
 

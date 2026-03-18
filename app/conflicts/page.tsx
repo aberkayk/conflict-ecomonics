@@ -1,3 +1,17 @@
+// TODO: This page redirects to home until UCDP API token is available.
+// All conflict data comes from getDemoConflicts() fallback (UCDP returns 401).
+// To re-enable: add UCDP_TOKEN to .env.local, uncomment nav link in header.tsx,
+// and remove the redirect + restore the original export default below.
+
+import { redirect } from "next/navigation";
+
+export default function ConflictsPage() {
+  redirect("/");
+}
+
+// ─── Original page preserved below — restore when UCDP token is available ───
+
+/*
 "use client";
 
 import Link from "next/link";
@@ -107,3 +121,4 @@ export default function ConflictsPage() {
     </div>
   );
 }
+*/

@@ -1,3 +1,18 @@
+// TODO: This page redirects to home until UCDP API token is available.
+// Conflict KPI cards depend on getDemoConflicts() fallback (UCDP returns 401).
+// Economic charts (GDP, Inflation, Trade, Currency, Commodities) are fully live.
+// To re-enable: add UCDP_TOKEN to .env.local, uncomment nav link in header.tsx,
+// and remove the redirect + restore the original export default below.
+
+import { redirect } from "next/navigation";
+
+export default function DashboardPage() {
+  redirect("/");
+}
+
+/*
+─── Original page preserved below — restore when UCDP token is available ──────
+
 "use client";
 
 import { Suspense } from "react";
@@ -44,38 +59,13 @@ function DashboardContent() {
 
       <ChartFilters />
 
-      {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <StatCard
-          title="Active Conflicts"
-          value={conflictsLoading ? "..." : String(totalConflicts)}
-          description="Tracked worldwide"
-          icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>}
-        />
-        <StatCard
-          title="Avg GDP Impact"
-          value={conflictsLoading ? "..." : `${avgGdpImpact}%`}
-          description="Across affected nations"
-          trend="up"
-          icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>}
-        />
-        <StatCard
-          title="Displaced People"
-          value={conflictsLoading ? "..." : `${(totalDisplaced / 1_000_000).toFixed(1)}M`}
-          description="Estimated total"
-          trend="up"
-          icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>}
-        />
-        <StatCard
-          title="Total Fatalities"
-          value={conflictsLoading ? "..." : totalFatalities.toLocaleString()}
-          description="Reported casualties"
-          trend="up"
-          icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>}
-        />
+        <StatCard title="Active Conflicts" value={conflictsLoading ? "..." : String(totalConflicts)} description="Tracked worldwide" icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>} />
+        <StatCard title="Avg GDP Impact" value={conflictsLoading ? "..." : `${avgGdpImpact}%`} description="Across affected nations" trend="up" icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>} />
+        <StatCard title="Displaced People" value={conflictsLoading ? "..." : `${(totalDisplaced / 1_000_000).toFixed(1)}M`} description="Estimated total" trend="up" icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>} />
+        <StatCard title="Total Fatalities" value={conflictsLoading ? "..." : totalFatalities.toLocaleString()} description="Reported casualties" trend="up" icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>} />
       </div>
 
-      {/* Charts Grid */}
       <div className="grid md:grid-cols-2 gap-4 mb-4">
         <GDPImpactChart data={gdpData || []} isLoading={gdpLoading} />
         <CurrencyChart data={currencies || []} isLoading={currencyLoading} />
@@ -83,7 +73,6 @@ function DashboardContent() {
         <TradeDisruptionChart data={tradeData || []} isLoading={tradeLoading} />
       </div>
 
-      {/* Full Width Inflation + Impact Summary */}
       <div className="grid md:grid-cols-3 gap-4">
         <div className="md:col-span-2">
           <InflationChart data={inflationData || []} isLoading={inflationLoading} />
@@ -95,9 +84,7 @@ function DashboardContent() {
           <CardContent>
             {conflictsLoading ? (
               <div className="space-y-3">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Skeleton key={i} className="h-12 w-full" />
-                ))}
+                {[1, 2, 3, 4, 5].map((i) => (<Skeleton key={i} className="h-12 w-full" />))}
               </div>
             ) : (
               <ImpactSummary conflicts={conflicts || []} />
@@ -123,15 +110,12 @@ function DashboardSkeleton() {
       <Skeleton className="h-8 w-64 mb-2" />
       <Skeleton className="h-4 w-96 mb-6" />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        {[1, 2, 3, 4].map((i) => (
-          <Skeleton key={i} className="h-24" />
-        ))}
+        {[1, 2, 3, 4].map((i) => (<Skeleton key={i} className="h-24" />))}
       </div>
       <div className="grid md:grid-cols-2 gap-4">
-        {[1, 2, 3, 4].map((i) => (
-          <Skeleton key={i} className="h-[300px]" />
-        ))}
+        {[1, 2, 3, 4].map((i) => (<Skeleton key={i} className="h-[300px]" />))}
       </div>
     </div>
   );
 }
+*/

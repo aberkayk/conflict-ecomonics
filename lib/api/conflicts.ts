@@ -207,6 +207,9 @@ function getDemoConflicts(): Conflict[] {
   }> = [
     { country: "Ukraine", lat: 48.38, lng: 37.62, fatalities: 8200, events: 1450, severity: "critical" },
     { country: "Sudan", lat: 15.5, lng: 32.53, fatalities: 6800, events: 980, severity: "critical" },
+    { country: "Palestine", lat: 31.35, lng: 34.31, fatalities: 5200, events: 1100, severity: "critical" },
+    { country: "Iran", lat: 32.43, lng: 53.69, fatalities: 4100, events: 680, severity: "critical" },
+    { country: "Israel", lat: 31.05, lng: 34.85, fatalities: 2800, events: 620, severity: "high" },
     { country: "Myanmar", lat: 19.76, lng: 96.07, fatalities: 3200, events: 720, severity: "high" },
     { country: "Syria", lat: 35.2, lng: 38.99, fatalities: 1800, events: 410, severity: "high" },
     { country: "Nigeria", lat: 9.08, lng: 7.49, fatalities: 1500, events: 380, severity: "high" },
@@ -214,6 +217,7 @@ function getDemoConflicts(): Conflict[] {
     { country: "Somalia", lat: 5.15, lng: 46.2, fatalities: 950, events: 290, severity: "medium" },
     { country: "Democratic Republic of Congo", lat: -1.66, lng: 29.22, fatalities: 2100, events: 520, severity: "high" },
     { country: "Yemen", lat: 15.37, lng: 44.19, fatalities: 800, events: 210, severity: "medium" },
+    { country: "Lebanon", lat: 33.85, lng: 35.86, fatalities: 750, events: 230, severity: "medium" },
     { country: "Burkina Faso", lat: 12.37, lng: -1.52, fatalities: 700, events: 250, severity: "medium" },
     { country: "Mali", lat: 17.57, lng: -4.0, fatalities: 450, events: 180, severity: "medium" },
     { country: "Pakistan", lat: 30.38, lng: 69.35, fatalities: 380, events: 150, severity: "medium" },

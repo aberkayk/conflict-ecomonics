@@ -6,13 +6,20 @@ import type { Conflict } from "@/types";
 
 interface ConflictMarkerProps {
   conflict: Conflict;
+  zoom: number;
   onHover: (conflict: Conflict | null, event?: React.MouseEvent) => void;
   onClick: (conflict: Conflict) => void;
 }
 
-export function ConflictMarker({ conflict, onHover, onClick }: ConflictMarkerProps) {
+export function ConflictMarker({ conflict, zoom, onHover, onClick }: ConflictMarkerProps) {
   const color = SEVERITY_COLORS[conflict.severity];
-  const size = conflict.severity === "critical" ? 8 : conflict.severity === "high" ? 6 : 4;
+  // Base size in screen-pixels; divide by zoom to keep it constant on screen
+  const baseSize = conflict.severity === "critical" ? 8 : conflict.severity === "high" ? 6 : 4;
+  const r = baseSize / zoom;
+  const stroke = 1.5 / zoom;
+  const labelOffset = -(r + 5 / zoom);
+  const fontSize = 5 / zoom;
+  const labelStroke = 2.5 / zoom;
 
   return (
     <Marker coordinates={[conflict.longitude, conflict.latitude]}>
@@ -23,11 +30,11 @@ export function ConflictMarker({ conflict, onHover, onClick }: ConflictMarkerPro
         className="cursor-pointer"
       >
         {/* Pulse animation ring */}
-        <circle r={size + 4} fill={color} opacity={0.2}>
+        <circle r={r + 4 / zoom} fill={color} opacity={0.2}>
           <animate
             attributeName="r"
-            from={String(size + 2)}
-            to={String(size + 10)}
+            from={String(r + 2 / zoom)}
+            to={String(r + 10 / zoom)}
             dur="2s"
             repeatCount="indefinite"
           />
@@ -40,7 +47,20 @@ export function ConflictMarker({ conflict, onHover, onClick }: ConflictMarkerPro
           />
         </circle>
         {/* Main marker */}
-        <circle r={size} fill={color} stroke="#fff" strokeWidth={1.5} opacity={0.9} />
+        <circle r={r} fill={color} stroke="#fff" strokeWidth={stroke} opacity={0.9} />
+        {/* Country label */}
+        <text
+          textAnchor="middle"
+          y={labelOffset}
+          style={{ fontSize: `${fontSize}px`, fontWeight: "600", pointerEvents: "none" }}
+          stroke="#fff"
+          strokeWidth={labelStroke}
+          strokeLinejoin="round"
+          paintOrder="stroke"
+          fill="#1f2937"
+        >
+          {conflict.countries[0]}
+        </text>
       </g>
     </Marker>
   );

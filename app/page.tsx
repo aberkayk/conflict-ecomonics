@@ -1,17 +1,19 @@
 "use client";
 
-import { WorldMap } from "@/components/map/world-map";
+import { LeafletMap } from "@/components/map/leaflet-map";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { ConflictTimeline } from "@/components/dashboard/conflict-timeline";
+import { LiveEventsList } from "@/components/events/live-events-list";
+import { EconomicImpactPanel } from "@/components/events/economic-impact-panel";
 import { useConflicts } from "@/hooks/use-conflicts";
+import { useMapEvents } from "@/hooks/use-map-events";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function HomePage() {
-  const { data: conflicts, isLoading, error } = useConflicts();
+  const { data: conflicts, isLoading: conflictsLoading, error } = useConflicts();
+  const { events, stats, isLoading: eventsLoading } = useMapEvents(300);
 
   const totalConflicts = conflicts?.length || 0;
-  const totalFatalities = conflicts?.reduce((sum, c) => sum + c.totalFatalities, 0) || 0;
   const avgGdpImpact = conflicts?.length
     ? (conflicts.reduce((sum, c) => sum + c.estimatedGdpImpact, 0) / conflicts.length).toFixed(1)
     : "0";
@@ -28,7 +30,7 @@ export default function HomePage() {
           Real-time monitoring of how global conflicts affect economies
         </p>
         <p className="text-xs text-muted-foreground mt-1">
-          Data: ACLED, World Bank, Frankfurter, Yahoo Finance, GDELT
+          Data: ACLED · World Bank · Frankfurter · GDELT · BBC · Al Jazeera · NY Times · The Guardian
         </p>
       </div>
 
@@ -45,24 +47,23 @@ export default function HomePage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <StatCard
           title="Active Conflicts"
-          value={isLoading ? "..." : String(totalConflicts)}
+          value={conflictsLoading ? "..." : String(totalConflicts)}
           description="Tracked worldwide"
           icon={
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
           }
         />
         <StatCard
-          title="Avg GDP Impact"
-          value={isLoading ? "..." : `${avgGdpImpact}%`}
-          description="Across affected nations"
-          trend="up"
+          title="Live Events"
+          value={eventsLoading ? "..." : String(stats?.total ?? events.length)}
+          description="RSS · GDELT · Manual"
           icon={
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
           }
         />
         <StatCard
           title="Displaced People"
-          value={isLoading ? "..." : `${(totalDisplaced / 1_000_000).toFixed(1)}M`}
+          value={conflictsLoading ? "..." : `${(totalDisplaced / 1_000_000).toFixed(1)}M`}
           description="Estimated total"
           trend="up"
           icon={
@@ -71,7 +72,7 @@ export default function HomePage() {
         />
         <StatCard
           title="Trade Disruption"
-          value={isLoading ? "..." : `${tradeDisruption}%`}
+          value={conflictsLoading ? "..." : `${tradeDisruption}%`}
           description="High/critical severity"
           trend="up"
           icon={
@@ -80,23 +81,28 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Map + Timeline */}
+      {/* Map (2/3) + Live Events (1/3) */}
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          {isLoading ? (
-            <Skeleton className="aspect-[2/1] w-full rounded-lg" />
+          {conflictsLoading ? (
+            <Skeleton className="aspect-2/1 w-full rounded-lg" />
           ) : (
-            <WorldMap conflicts={conflicts || []} />
+            <LeafletMap conflicts={conflicts || []} events={events} />
           )}
         </div>
-        <div>
-          {isLoading ? (
-            <Skeleton className="h-[400px]" />
-          ) : (
-            <ConflictTimeline conflicts={conflicts || []} />
-          )}
+        <div className="min-h-[400px] lg:max-h-[calc(50vw/2)]">
+          <LiveEventsList
+            events={events}
+            isLoading={eventsLoading}
+            stats={stats}
+          />
         </div>
       </div>
+
+      {/* AI Economic Impact — hidden for now */}
+      {/* <div className="mt-6">
+        <EconomicImpactPanel events={events} />
+      </div> */}
     </div>
   );
 }
